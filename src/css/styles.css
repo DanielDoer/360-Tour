@@ -3,6 +3,8 @@
   --color-bg: #10131a;
   --color-card: #171c26;
   --color-card-strong: #202839;
+  --color-control: rgb(255 255 255 / 0.08);
+  --color-control-border: rgb(255 255 255 / 0.14);
   --color-text: #f6f7fb;
   --color-muted: #aab3c5;
   --color-accent: #6ee7f9;
@@ -77,10 +79,13 @@ button {
 
 .app-header nav a,
 .scene-button,
-.viewer-controls button {
-  border: 1px solid rgb(255 255 255 / 0.14);
+.viewer-controls button,
+.connection-form button,
+.connection-form select,
+.upload-dropzone {
+  border: 1px solid var(--color-control-border);
   border-radius: 999px;
-  background: rgb(255 255 255 / 0.06);
+  background: var(--color-control);
   color: var(--color-text);
   padding: 0.7rem 1rem;
   text-decoration: none;
@@ -106,15 +111,52 @@ button {
 }
 
 .panorama-viewer {
+  position: relative;
   display: grid;
   min-height: clamp(24rem, 64vw, 42rem);
   place-items: center;
+  overflow: hidden;
   background-color: var(--color-card-strong);
+  outline: none;
+  touch-action: none;
+}
+
+.panorama-viewer.is-dragging {
+  cursor: grabbing;
+}
+
+.panorama-canvas,
+.hotspot-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.panorama-canvas {
+  display: block;
   background-position: 50% 50%;
   background-repeat: repeat-x;
   background-size: auto 100%;
-  outline: none;
-  transition: background-position 180ms ease-out;
+}
+
+.hotspot-layer {
+  pointer-events: none;
+}
+
+.hotspot-button {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #071016;
+  padding: 0.55rem 0.85rem;
+  box-shadow: 0 0 0 0.35rem rgb(110 231 249 / 0.22), 0 0.85rem 1.8rem rgb(0 0 0 / 0.38);
+  cursor: pointer;
+  font-weight: 800;
+  pointer-events: auto;
+  white-space: nowrap;
 }
 
 .panorama-viewer:focus-visible {
@@ -122,8 +164,19 @@ button {
 }
 
 .viewer-message,
-.status {
+.status,
+.panel-hint,
+.upload-dropzone small {
   color: var(--color-muted);
+}
+
+.viewer-message {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.42);
+  padding: 0.65rem 1rem;
 }
 
 .viewer-controls {
@@ -135,12 +188,16 @@ button {
 }
 
 .viewer-controls button,
-.scene-button {
+.scene-button,
+.connection-form button,
+.upload-dropzone {
   cursor: pointer;
 }
 
 .viewer-controls button:hover,
 .scene-button:hover,
+.connection-form button:hover,
+.upload-dropzone:hover,
 .app-header nav a:hover {
   border-color: var(--color-accent);
 }
@@ -160,6 +217,49 @@ button {
 
 .tour-panel h3 {
   margin-top: 2rem;
+}
+
+.upload-panel,
+.connection-panel {
+  margin-top: 1.5rem;
+}
+
+.upload-dropzone {
+  display: grid;
+  gap: 0.35rem;
+  border-radius: 1rem;
+}
+
+.upload-dropzone span {
+  font-weight: 800;
+}
+
+#panorama-upload {
+  width: 100%;
+  margin-top: 0.75rem;
+  color: var(--color-muted);
+}
+
+.connection-form {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.connection-form label {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.connection-form select,
+.connection-form button {
+  width: 100%;
+  border-radius: 0.9rem;
+}
+
+.connection-form button:disabled,
+.connection-form select:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
 }
 
 .scene-list {
