@@ -1,6 +1,7 @@
 import { loadTour } from "./tourLoader.js";
 import { ensureDefaultRoute, getTourIdFromLocation } from "./router.js";
 import { createPanoramaViewer } from "./viewer.js";
+import { createTourJson, createTourJsonFileName } from "./tourExport.js";
 
 const strings = {
   loadError: "The tour could not be loaded.",
@@ -10,6 +11,8 @@ const strings = {
   localTourDescription: "Browser-only draft from uploaded equirectangular 360 degree photos.",
   noUpload: "Choose one or more stitched Insta360 equirectangular photos to build a local tour.",
   uploadReady: (count) => `${count} local ${count === 1 ? "panorama" : "panoramas"} ready. Add connections as hotspots from the current view.`,
+  exportReady: (fileName) => `Saved ${fileName}. Keep the referenced panorama images in the same folder when publishing.`,
+  noExport: "Load or upload a tour before downloading JSON.",
   connectionReady: (source, target) => `Connected ${source} to ${target}.`,
   needsTarget: "Choose another panorama before adding a connection.",
   unsupportedHotspot: "This hotspot type is not interactive in the MVP yet."
@@ -26,7 +29,8 @@ const elements = {
   uploadInput: document.querySelector("#panorama-upload"),
   connectTarget: document.querySelector("#connect-target"),
   connectButton: document.querySelector("#connect-button"),
-  connectionHint: document.querySelector("#connection-hint")
+  connectionHint: document.querySelector("#connection-hint"),
+  exportButton: document.querySelector("#export-button")
 };
 
 const viewer = createPanoramaViewer(elements.viewer, { onHotspotActivate: handleHotspotActivate });
@@ -63,6 +67,8 @@ elements.uploadInput.addEventListener("change", () => {
   renderTour(activeTour, activeBasePath, scenes[0].id);
   renderStatus(strings.uploadReady(scenes.length));
 });
+
+elements.exportButton.addEventListener("click", downloadActiveTour);
 
 elements.connectButton.addEventListener("click", () => {
   const sourceScene = findActiveScene();
@@ -110,6 +116,7 @@ function renderTour(tour, basePath, sceneId) {
   elements.sceneCount.textContent = strings.sceneCount(tour.scenes.length);
   renderSceneList(tour, basePath, scene.id);
   renderConnectTargets(tour, scene.id);
+  elements.exportButton.disabled = false;
   viewer.showScene(scene, basePath);
 }
 
@@ -194,6 +201,25 @@ function createLocalSceneFromFile(file) {
   };
 }
 
+function downloadActiveTour() {
+  if (!activeTour) {
+    renderStatus(strings.noExport);
+    return;
+  }
+
+  const fileName = createTourJsonFileName(activeTour);
+  const blob = new Blob([createTourJson(activeTour)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+  renderStatus(strings.exportReady(fileName));
+}
+
 function findActiveScene() {
   return activeTour?.scenes.find((scene) => scene.id === activeSceneId);
 }
@@ -210,6 +236,7 @@ function renderError(error) {
   elements.connectTarget.textContent = "";
   elements.connectTarget.disabled = true;
   elements.connectButton.disabled = true;
+  elements.exportButton.disabled = true;
   elements.connectionHint.textContent = "Load a tour or upload panoramas to create connections.";
   elements.status.textContent = error.message;
   elements.viewer.textContent = strings.loadError;
