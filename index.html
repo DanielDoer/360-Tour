@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Create and view self-hosted 360 degree tours.">
+    <title>tour360</title>
+    <link rel="stylesheet" href="src/css/styles.css">
+    <script type="module" src="src/js/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#tour-title">Skip to tour details</a>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Open-source virtual tours</p>
+        <h1>tour360</h1>
+      </div>
+      <nav aria-label="Primary navigation">
+        <a href="#/tour/demo">Demo tour</a>
+        <a href="docs/project_brief.md">Project brief</a>
+      </nav>
+    </header>
+
+    <main class="app-shell">
+      <section class="viewer-card" aria-label="Panorama viewer">
+        <div id="viewer" class="panorama-viewer" tabindex="0" aria-label="Interactive panorama viewer">
+          <p class="viewer-message">Loading tour…</p>
+        </div>
+        <div class="viewer-controls" aria-label="Panorama controls">
+          <button type="button" data-pan="left" aria-label="Pan left">←</button>
+          <button type="button" data-pan="right" aria-label="Pan right">→</button>
+          <button type="button" data-pan="up" aria-label="Pan up">↑</button>
+          <button type="button" data-pan="down" aria-label="Pan down">↓</button>
+        </div>
+      </section>
+
+      <aside class="tour-panel" aria-labelledby="tour-title">
+        <p class="eyebrow" id="scene-count">Tour</p>
+        <h2 id="tour-title">Loading…</h2>
+        <p id="tour-description"></p>
+        <h3>Scenes</h3>
+        <div id="scene-list" class="scene-list"></div>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </aside>
+    </main>
+  </body>
+</html>

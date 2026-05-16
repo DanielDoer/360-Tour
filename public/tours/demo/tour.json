@@ -1,0 +1,45 @@
+{
+  "id": "demo",
+  "title": "Demo mountain lookout",
+  "description": "A small sample tour that proves the static viewer, schema validation and scene switching work before upload tooling is added.",
+  "scenes": [
+    {
+      "id": "lookout",
+      "title": "Lookout",
+      "image": "images/lookout.svg",
+      "initialView": {
+        "yaw": 0,
+        "pitch": 0
+      },
+      "hotspots": [
+        {
+          "id": "to-camp",
+          "type": "scene",
+          "label": "Go to camp",
+          "yaw": 34,
+          "pitch": -4,
+          "targetSceneId": "camp"
+        }
+      ]
+    },
+    {
+      "id": "camp",
+      "title": "Camp",
+      "image": "images/camp.svg",
+      "initialView": {
+        "yaw": -20,
+        "pitch": 2
+      },
+      "hotspots": [
+        {
+          "id": "to-lookout",
+          "type": "scene",
+          "label": "Back to lookout",
+          "yaw": -48,
+          "pitch": 1,
+          "targetSceneId": "lookout"
+        }
+      ]
+    }
+  ]
+}

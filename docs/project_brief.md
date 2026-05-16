@@ -99,13 +99,13 @@ werden, bevor entsprechender Code geschrieben wird.
 ### 1. 360°-Viewer-Library
 - **Vorschlag:** Pannellum (MIT)
 - **Alternative:** Marzipano (Apache 2.0, näher an Kuula in puncto Features)
-- **Status:** offen
+- **Status:** entschieden: Pannellum bleibt die empfohlene Viewer-Library für den späteren echten 360°-Renderer. Der erste Code-Schritt nutzt noch keine externe Dependency und kapselt die aktuelle Panorama-Darstellung in `src/js/viewer.js`, damit Pannellum später ohne Datenmodellbruch angeschlossen werden kann.
 
 ### 2. Backend ja/nein in Phase 1
 - **Vorschlag:** Nein. Pure Frontend, Touren als JSON im public-Ordner, Bilder als Files daneben.
 - **Konsequenz dieser Wahl:** GitHub-Pages-tauglich, kein Server-Setup, aber:
   Foto-Upload geht nur lokal (User legt Datei im public-Ordner ab), kein Cloud-Sharing.
-- **Status:** offen
+- **Status:** entschieden: Phase 1 startet als reines statisches Frontend ohne Backend. Tour-Daten liegen unter `public/tours/<tour-id>/tour.json`, damit die App direkt über Static Hosting lauffähig bleibt.
 
 ### 3. Tour-Persistenz
 - **Optionen:**
@@ -113,12 +113,12 @@ werden, bevor entsprechender Code geschrieben wird.
   - LocalStorage (browser-lokal, kein Sharing)
   - IndexedDB (für größere Touren mit vielen Bildern)
 - **Vorschlag MVP:** JSON-Datei im Repo
-- **Status:** offen
+- **Status:** entschieden: MVP-Touren werden zunächst als JSON-Dateien im Repo geladen. LocalStorage/IndexedDB bleiben spätere Optionen für Editor-Zwischenspeicher, sind aber nicht Teil des ersten Viewers.
 
 ### 4. Foto-Upload-Mechanismus in Phase 1
 - Da pure Frontend: Drag-and-Drop ins Editor-UI, Verarbeitung im Browser,
   resultierende Datei wird vom User in `public/tours/<tour-id>/images/` gespeichert
-- **Status:** zu klären (insb. die UX rund um „User muss Datei selbst ablegen")
+- **Status:** offen (insb. die UX rund um „User muss Datei selbst ablegen")
 
 ### 5. URL-Routing
 - **Optionen:**
@@ -126,13 +126,13 @@ werden, bevor entsprechender Code geschrieben wird.
   - Hash-Routing (`#/tour/xxx`)
   - Echtes Routing (braucht Build / Backend)
 - **Vorschlag MVP:** Hash-Routing
-- **Status:** offen
+- **Status:** entschieden: Hash-Routing (`#/tour/<id>`) wird für den statischen MVP-Viewer genutzt, damit GitHub Pages ohne Server-Fallback funktioniert.
 
 ### 6. Editor vs. Viewer
 - Eine einzelne `index.html` mit Mode-Switch, oder zwei getrennte HTMLs
   (`index.html` als Viewer, `editor.html` als Editor)?
 - **Vorschlag:** zwei getrennte HTMLs – sauberer Code, weniger Bundle für reine Viewer-Aufrufe
-- **Status:** offen
+- **Status:** vorläufig entschieden: `index.html` startet als Viewer. Ein separates `editor.html` bleibt für Phase 2 sinnvoll, sobald Editor-Funktionen tatsächlich umgesetzt werden.
 
 ---
 

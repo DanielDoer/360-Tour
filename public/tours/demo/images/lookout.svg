@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1000" role="img" aria-label="Stylized equirectangular mountain lookout panorama">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop stop-color="#79d7ff" offset="0"/>
+      <stop stop-color="#f7f0c3" offset="0.62"/>
+      <stop stop-color="#39433a" offset="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="2000" height="1000" fill="url(#sky)"/>
+  <circle cx="1540" cy="210" r="92" fill="#fff3a8" opacity="0.9"/>
+  <path d="M0 610 250 330 480 625 720 290 960 620 1210 360 1470 640 1710 330 2000 610v390H0z" fill="#31465a"/>
+  <path d="M0 710 320 490 600 730 860 480 1100 720 1400 510 1680 735 2000 500v500H0z" fill="#1f6a57"/>
+  <path d="M0 820c230-80 420-80 620 0s390 80 610 0 440-80 770 0v180H0z" fill="#18261f"/>
+</svg>
