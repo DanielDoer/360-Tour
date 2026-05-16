@@ -6,7 +6,9 @@
 |-------|---------|--------------|
 | 2026-05-16 | Static app shell | `index.html` loads a vanilla ES module app from `src/js/app.js` and links `src/css/styles.css`. The current app is viewer-only and uses hash routes in the form `#/tour/<tour-id>`. |
 | 2026-05-16 | Tour loading | `src/js/router.js` extracts the tour id, `src/js/tourLoader.js` fetches `public/tours/<tour-id>/tour.json`, and `src/js/tourSchema.js` validates the JSON before rendering. |
-| 2026-05-16 | Viewer state | `src/js/viewer.js` owns the lightweight panorama state (`yaw`, `pitch`) and exposes `showScene` plus `pan`. This keeps the current CSS-based placeholder renderer replaceable by Pannellum later. |
+| 2026-05-16 | Viewer state | `src/js/viewer.js` owns the panorama state (`yaw`, `pitch`) and exposes `showScene`, `pan`, `getView` plus local-image URL lifecycle helpers. |
+| 2026-05-16 | WebGL panorama renderer | `src/js/viewer.js` renders equirectangular 2:1 panoramas on a WebGL sphere, with pointer drag, keyboard/button pan controls, pitch up/down and hotspot projection. It falls back to CSS background panning when WebGL is unavailable. |
+| 2026-05-16 | Local upload draft flow | `index.html` and `src/js/app.js` provide a browser-local upload/editor path for already stitched Insta360-style panoramas. Uploaded files become Object-URL scenes and can be connected with scene hotspots at the current view direction. |
 | 2026-05-16 | Demo data | `public/tours/demo/tour.json` defines the first sample tour with two scenes and cross-linked scene hotspots. SVG panorama placeholders live in `public/tours/demo/images/`. |
 | 2026-05-16 | Tests | `tests/tourSchema.test.js` uses Node's built-in test runner to cover schema validation without adding test dependencies yet. |
 
@@ -16,7 +18,8 @@
 2. `ensureDefaultRoute()` sets `#/tour/demo` when no route is present.
 3. `loadTour()` fetches and validates `public/tours/<tour-id>/tour.json`.
 4. `app.js` writes tour metadata and scene buttons using `textContent`/created elements only.
-5. `viewer.js` renders the selected scene image as an interactive placeholder panorama and updates yaw/pitch on button or keyboard input.
+5. `viewer.js` renders the selected equirectangular scene on a WebGL sphere and updates yaw/pitch from pointer drag, buttons or keyboard input.
+6. Local uploads in `app.js` create browser-only scene objects with Object URLs; connection controls append scene hotspots at the current yaw/pitch.
 
 ## Patterns
 

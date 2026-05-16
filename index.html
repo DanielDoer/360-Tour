@@ -38,8 +38,28 @@
         <p class="eyebrow" id="scene-count">Tour</p>
         <h2 id="tour-title">Loading…</h2>
         <p id="tour-description"></p>
+        <section class="upload-panel" aria-labelledby="upload-title">
+          <p class="eyebrow" id="upload-title">Local editor</p>
+          <label class="upload-dropzone" for="panorama-upload">
+            <span>Upload stitched Insta360 photos</span>
+            <small>Equirectangular 2:1 images stay in your browser. No stitching or server upload.</small>
+          </label>
+          <input id="panorama-upload" type="file" accept="image/*" multiple>
+        </section>
+
         <h3>Scenes</h3>
         <div id="scene-list" class="scene-list"></div>
+
+        <section class="connection-panel" aria-labelledby="connection-title">
+          <h3 id="connection-title">Connect panoramas</h3>
+          <p id="connection-hint" class="panel-hint">Look toward the doorway or transition point, then connect the current view to another panorama.</p>
+          <div class="connection-form">
+            <label for="connect-target">Target panorama</label>
+            <select id="connect-target"></select>
+            <button id="connect-button" type="button">Add connection here</button>
+          </div>
+        </section>
+
         <p id="status" class="status" role="status" aria-live="polite"></p>
       </aside>
     </main>

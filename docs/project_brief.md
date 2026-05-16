@@ -41,8 +41,9 @@ läuft, später offen für andere.
 ## Phasenplanung
 
 ### Phase 1 – MVP (Single-User, lokal)
-- Foto-Upload (equirectangular 2:1 Bilder)
-- Anzeige eines einzelnen 360°-Panoramas
+- Foto-Upload (equirectangular 2:1 Bilder, z. B. bereits in der Kamera-App gestitchte Insta360-Fotos)
+- Anzeige eines einzelnen 360°-Panoramas mit freier Drehung nach links/rechts/oben/unten
+- Browser-lokales Verbinden mehrerer hochgeladener Panoramen über Hotspots
 - Speichern einer Tour als JSON
 - Laden einer Tour über URL-Parameter oder Tour-Auswahl
 - Mobile-Responsive
@@ -63,7 +64,7 @@ läuft, später offen für andere.
 - Kommentare unter Touren
 - Bezahlfunktionen
 - VR-Headset-Modus
-- Foto-Stitching (User liefert bereits equirectangulare Bilder)
+- Automatisches Foto-Stitching aus Roh-Einzelbildern (User liefert bereits equirectangulare Bilder; Browser-Upload und Verbindung dieser Bilder bleiben Teil des MVP)
 
 ## Tech-Stack (geplant)
 
@@ -116,9 +117,9 @@ werden, bevor entsprechender Code geschrieben wird.
 - **Status:** entschieden: MVP-Touren werden zunächst als JSON-Dateien im Repo geladen. LocalStorage/IndexedDB bleiben spätere Optionen für Editor-Zwischenspeicher, sind aber nicht Teil des ersten Viewers.
 
 ### 4. Foto-Upload-Mechanismus in Phase 1
-- Da pure Frontend: Drag-and-Drop ins Editor-UI, Verarbeitung im Browser,
-  resultierende Datei wird vom User in `public/tours/<tour-id>/images/` gespeichert
-- **Status:** offen (insb. die UX rund um „User muss Datei selbst ablegen")
+- Da pure Frontend: Upload im Browser über `input[type=file]`, Verarbeitung über lokale Object-URLs, keine Server-Übertragung.
+- Erwartetes Quellformat: bereits gestitchte equirectangulare 2:1-Panoramen, z. B. aus der Insta360-App/Kamera-Software.
+- **Status:** entschieden: Der Viewer akzeptiert lokale Bild-Uploads für browser-lokale Tour-Entwürfe. Automatisches Stitching von Rohbildern bleibt out of scope; das Verbinden der fertigen 360°-Fotos über Hotspots passiert in der App.
 
 ### 5. URL-Routing
 - **Optionen:**
