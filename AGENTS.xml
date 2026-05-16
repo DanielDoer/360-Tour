@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<agents_instructions project="tour360">
+
+<context>
+Open-Source-Web-App zum Erstellen virtueller 360°-Touren. User lädt
+equirectangulare Panorama-Fotos (z. B. von einer Insta360-Kamera) hoch,
+verbindet sie zu Touren mit Hotspots und teilt das Ergebnis als
+Embed oder Link. Funktional an https://kuula.co/ angelehnt, aber
+komplett ohne Lizenzkosten – nur OSS-Komponenten mit permissiver Lizenz
+(MIT, Apache 2.0, BSD).
+
+Zielplattform: moderne Browser (Chrome, Firefox, Safari, Edge – letzte
+zwei Hauptversionen). Mobile-Responsive von Anfang an mitgedacht.
+
+Sprache: Antworten und Commit-Messages auf Deutsch, Code, Docstrings
+und UI-Strings auf Englisch. Internationalisierung ist nicht in MVP,
+aber Strings werden so strukturiert, dass eine spätere i18n möglich ist.
+
+Detaillierte Vision, Use Cases, Tech-Stack-Entscheidungen und offene
+Architektur-Fragen: siehe docs/project_brief.md (lies bei jedem Task-Start).
+</context>
+
+<project_memory>
+Im Ordner docs/ liegen Markdown-Dateien als persistentes Gedächtnis
+zwischen Sessions. Du musst sie aktiv pflegen.
+
+VOR jedem Task: alle folgenden Dateien lesen, in dieser Reihenfolge:
+1. docs/project_brief.md – Vision, Use Cases, offene Entscheidungen
+2. docs/project_profile.md – Architektur-Karte (sobald existent)
+3. docs/lastsession.md – Session-Protokoll
+4. docs/knownbugs.md – bekannte Bugs
+5. docs/plannedfeatures.md – Feature-Backlog
+6. docs/lessons.md – wiederkehrende Patterns
+
+NACH jedem Task: lastsession.md immer aktualisieren, die anderen falls
+relevant. Details pro Datei unten.
+
+Erstanlage: Wenn eine Memory-Datei beim ersten Task noch nicht existiert,
+lege sie mit dem im jeweiligen File-Block genannten Format und einer
+leeren Tabelle an (Header + Trennzeile, keine Daten).
+
+<date_rule>
+Vor jedem Memory-Eintrag: aktuelles Datum aus der VM holen mit
+`date +%Y-%m-%d`. Format zwingend YYYY-MM-DD. NIEMALS Datum aus
+dieser Datei, Beispielen, früheren Einträgen oder Trainingswissen.
+</date_rule>
+
+<file name="docs/project_brief.md">
+Lebendes Konzept-Dokument: Vision, Use Cases, Tech-Stack-Entscheidungen,
+Phasenplanung, offene Architektur-Fragen.
+
+Update-Pflicht: Wenn eine bisher offene Architektur-Entscheidung mit dem
+User geklärt wird, im Brief von „offen" auf „entschieden + Begründung"
+umstellen. Wenn neue offene Fragen entstehen, ergänzen.
+
+Bei Konflikt zwischen Brief und Code: Code gewinnt, Brief anpassen,
+im PR erwähnen.
+</file>
+
+<file name="docs/project_profile.md">
+Architektur-Karte: Datei-Layout, Modul-Verantwortlichkeiten, Datenfluss
+(z. B. Tour-JSON → Viewer-State → Render), wichtige Patterns.
+
+Wird angelegt, sobald die ersten Architektur-Entscheidungen umgesetzt
+sind. Update-Pflicht bei: neuen Modulen, neuen Hauptkomponenten,
+strukturellen Datenmodell-Änderungen, neuen externen Libraries.
+
+Bei Konflikt zwischen Profil und Code: Code gewinnt, Profil anpassen,
+im PR erwähnen.
+</file>
+
+<file name="docs/lastsession.md">
+Chronologisches Session-Protokoll. Am Ende jedes Tasks eine neue Zeile
+ergänzen, bestehende Einträge nie ändern oder löschen.
+
+Format: | Datum | Zusammenfassung |
+Zusammenfassung: 2-4 Sätze – Ziel, Umsetzung, ggf. bewusste Auslassungen.
+Konkret, keine Marketing-Sprache.
+
+Wachstum: bei >50 Einträgen die ältesten 25 nach
+docs/lastsession_archive.md verschieben. Das Archiv wird nur auf
+explizite Nachfrage gelesen.
+</file>
+
+<file name="docs/knownbugs.md">
+Bug-Tracker. Wenn der User einen Bug erwähnt – auch beiläufig –
+am Ende eintragen. Bei Unklarheit kurz rückfragen.
+
+Format: | Datum | Beschreibung | Code-Stelle | Behoben |
+„Behoben" startet mit „nein". Beim Fix: „nein" → „ja YYYY-MM-DD".
+Zeilen nie löschen – auch behobene bleiben als Historie.
+
+Wenn ein als „nein" markierter Bug nicht mehr reproduzierbar scheint:
+nicht eigenmächtig schließen, User fragen.
+</file>
+
+<file name="docs/plannedfeatures.md">
+Feature-Backlog. Wenn der User Ideen erwähnt – im Prompt oder
+beiläufig – eintragen.
+
+Format: | Feature | Umsetzbarkeit | Nützlichkeit | Umgesetzt |
+Umsetzbarkeit: einfach / mittel / komplex + Halbsatz Begründung.
+Nützlichkeit: eigene Einschätzung als Information, kein Urteil.
+
+„Umgesetzt" wird NUR auf ja gesetzt, wenn der User explizit ein
+Feature in Auftrag gibt und es umgesetzt wurde. Du wählst nicht
+selbstständig aus dieser Liste. Wenn ein Task eine Idee tangiert,
+weise den User hin, führe sie nicht ungefragt aus.
+</file>
+
+<file name="docs/lessons.md">
+Verdichtete Patterns. Anders als knownbugs.md (Einzelfälle): hier
+abstrahierte Lehren, die künftige Reinfälle verhindern.
+
+Eintragen, wenn du denkst „das ist ein Pattern, kein Einzelfall" –
+typisch beim zweiten Auftreten desselben Problems oder bei
+übertragbarer Lehre.
+
+Format: | Pattern | Lehre | Erstmals notiert |
+
+Sparsam halten – lieber 10 echte Lehren als 50 Best-Practice-Zitate.
+Offensichtlich obsolete Einträge: vor Entfernung User fragen.
+</file>
+
+<sync_rules>
+- Memory-Änderungen gehen in den PR der Code-Session, nicht separat.
+- Rein dokumentarischer Task: Commit-Titel mit „docs: ...".
+- Konflikt Memory vs Code: Code gewinnt, Memory anpassen, im PR erwähnen.
+</sync_rules>
+</project_memory>
+
+<setup>
+Node.js 20+ und npm vorausgesetzt.
+
+npm install
+npm run dev          # Development-Server, sobald eingerichtet
+
+Bis ein Build-Setup steht: index.html direkt im Browser öffnen oder
+einen einfachen Static-Server starten (`npx serve .`).
+</setup>
+
+<file_layout>
+Pfade relativ zum Repo-Root. Beim ersten Architektur-Task mit dem
+User abstimmen, bevor Abweichungen festgezurrt werden.
+
+- src/               Anwendungs-Code
+  - src/js/          JavaScript-Module
+  - src/css/         Stylesheets
+  - src/lib/         vendored Drittanbieter-Libs (falls nicht via CDN/npm)
+- public/            Statische Assets, ausgelieferte Tour-Daten
+  - public/tours/    Tour-JSONs und zugehörige Panorama-Bilder
+- docs/              Memory-Dateien, Architektur-Doku, Project Brief
+- tests/             Tests
+- temp/              Temporäre Skripte und Experimente. Kommt nicht in
+                     PRs, außer der Task verlangt es ausdrücklich.
+- index.html         Einstiegspunkt
+</file_layout>
+
+<architecture>
+Das Projekt startet frisch – die Architektur entsteht in den ersten
+Tasks. Folgende Prinzipien gelten ab Tag 1:
+
+- Eine Tour ist eine deklarative Datenstruktur (JSON), die der Viewer
+  als Single Source of Truth nutzt. Niemals zwei parallele Modelle.
+- Render-Logik (Pannellum/Marzipano-Aufrufe) bleibt getrennt von
+  Tour-Logik (Hotspots, Navigation, Persistenz).
+- Kein Framework am Anfang. Vanilla JS mit ES Modules. Frameworks
+  (Vue, Svelte, ...) erst aufnehmen, wenn der Bedarf konkret begründet ist.
+- Mobile-Responsive ist Mindest-Anspruch, nicht Bonus.
+
+Größere Architektur-Entscheidungen werden mit dem User abgestimmt,
+bevor sie umgesetzt werden. Siehe docs/project_brief.md für den
+aktuellen Stand offener Punkte.
+</architecture>
+
+<code_philosophy>
+Drei Kriterien, in dieser Reihenfolge: Funktionalität → Lesbarkeit →
+Knappheit. Knappheit gewinnt nur, wenn Lesbarkeit nicht leidet.
+Eine 40-Zeilen-Funktion, die linear liest, ist besser als drei
+15-Zeilen-Funktionen, zwischen denen man hin- und herspringen muss.
+</code_philosophy>
+
+<coding_rules>
+JavaScript
+- ES Modules, modernes ES2022+. Kein CommonJS, keine globalen Variablen.
+- `const` als Default, `let` nur wenn Reassignment nötig, niemals `var`.
+- Funktionen klein und mit klarem Zweck. „und" im Namen → splitten.
+- Richtwert 40–50 Zeilen pro Funktion. Darüber kritisch prüfen, aber nicht zwanghaft splitten.
+- Async-Code: durchgehend `async/await`. Keine `.then()`-Ketten ohne triftigen Grund.
+- Fehler: spezifische Behandlung. Niemals leere `catch`-Blöcke.
+- DOM-Manipulation: gebündelt, nicht über viele Funktionen verteilt.
+
+Naming
+- Verben für Funktionen (loadTour, renderPanorama), Fragen für Booleans (isVisible, hasHotspots).
+- Keine Abkürzungen außer Schleifen-Indizes.
+- Konstanten UPPER_SNAKE_CASE, oben in der Datei.
+
+HTML
+- Semantische Elemente (header, nav, main, section, article).
+- Buttons sind Buttons, Links sind Links. Keine div mit onClick.
+- alt-Attribute auf allen Bildern, aria-Attribute wo sinnvoll.
+
+CSS
+- CSS Custom Properties für Theme-Werte (Farben, Spacings, Schriften).
+- Klassen-Namen sprechend, BEM-artige Struktur (.tour-viewer__hotspot).
+- Mobile-First: Default-Styles für Mobile, `@media (min-width:)` für größere Screens.
+- Keine !important außer mit Begründungs-Kommentar.
+
+Allgemein
+- Konsistenz mit bestehendem Stil > persönliche Präferenz.
+- Kommentare erklären das Warum, nicht das Was.
+- Keine clever-One-Liner. Lieber zwei normale Zeilen.
+</coding_rules>
+
+<testing>
+Setup wird beim ersten Test-Task etabliert. Empfehlung:
+- Unit-Tests: Vitest (schnell, ES-Module-nativ, Jest-API-kompatibel)
+- E2E-Tests: Playwright (Multi-Browser, headless-tauglich)
+
+Tests liegen unter tests/. Datei-Konvention <name>.test.js.
+
+Testen:
+- Reine JS-Logik (Tour-Parser, Hotspot-Validierung, Navigations-State)
+- DOM-Interaktion mit jsdom oder Playwright
+- Tour-JSON-Roundtrip (Load → Render → Save)
+
+Nicht testen:
+- Reine Layout-Anordnung
+- Trivial-Getter
+- Externe Library-Interna (z. B. Pannellum selbst)
+
+Bei Bug-Fix: nach Möglichkeit Regressions-Test ergänzen. Wenn nicht
+praktikabel (browser-spezifisch, animation-getrieben), kurz im PR
+begründen.
+</testing>
+
+<security>
+Diese Regeln sind hart und nicht verhandelbar.
+
+- User-generierter Content (Tour-Beschreibungen, Hotspot-Titel) niemals
+  via `innerHTML` einsetzen. Immer `textContent` oder kontrolliertes
+  Element-Erzeugen.
+- Datei-Uploads (Panorama-Bilder): MIME-Type UND Datei-Endung prüfen.
+  Bei MVP nur lokale Verarbeitung – wenn später Upload-Endpoint:
+  Server-side validation pflicht.
+- Tour-JSON aus User-Input: schema-validieren (z. B. via Zod oder
+  einfaches selbst-geschriebenes Validierungs-Modul) bevor weiterverarbeitet.
+- Keine externen Scripts ohne Subresource-Integrity-Hash, wenn via CDN
+  geladen. Besser: via npm bündeln.
+- Content-Security-Policy spätestens vor Produktiv-Deployment setzen.
+- Keine API-Keys, Tokens oder Geheimnisse ins Repo. .env nutzen, .env in .gitignore.
+</security>
+
+<library_policy>
+Vor neuer Dependency:
+1. Stdlib- oder Browser-API-Lösung prüfen (fetch, FormData, URLSearchParams,
+   IntersectionObserver, etc. – sehr viel braucht keine Library).
+2. Lizenz prüfen: nur MIT, Apache 2.0, BSD oder vergleichbar permissiv.
+   GPL, BSL, SSPL, proprietär → NICHT verwenden.
+3. Aktive Wartung prüfen (Commits in den letzten 6 Monaten, offene
+   Issues nicht hunderfach ungelesen).
+4. Bundle-Size prüfen. Eine 200kB-Library für einen 20-Zeilen-Helper
+   ist Overkill.
+5. Begründung in PR-Beschreibung nennen.
+
+Vorab freigegeben (mit Lizenz): pannellum (MIT), marzipano (Apache 2.0),
+vitest (MIT), playwright (Apache 2.0). Andere vor Verwendung absprechen.
+</library_policy>
+
+<compatibility_veto>
+Eine Änderung darf NICHT:
+- Bestehende Tour-JSON-Strukturen brechen, ohne Migrationspfad
+- Parallele Datenmodelle für dasselbe Konzept einführen
+- Globale Variablen oder Singletons einführen, wo Modul-Exports reichen
+- Den Vanilla-JS-Stand verlassen, indem ungefragt ein Framework eingeführt wird
+- Eine zweite CSS-Methodik etablieren (kein BEM neben Utility-First neben CSS-Modules)
+
+Refactoring nur, wenn explizit beauftragt – auch wenn das Projekt
+noch jung ist.
+</compatibility_veto>
+
+<self_review_before_pr>
+Gehe deinen Code aus drei Perspektiven durch, bevor du den PR öffnest.
+Wenn aus einer Perspektive nichts Wesentliches zu meckern ist, sag das
+ehrlich – erfinde keine Findings.
+
+<perspective name="vorsichtiger_engineer">
+Was bricht in einem Jahr? Edge Cases (leere Touren, kaputte Bilder,
+fehlende Hotspots), Race Conditions bei async loading, Memory-Leaks
+bei Pano-Wechseln, fehlende Cleanup-Logik bei Event-Listenern,
+Eingabe-Validierung, Browser-Kompatibilität.
+</perspective>
+
+<perspective name="pragmatischer_reviewer">
+Versteht das jemand in unter einer Minute? Sprechende Namen, angemessene
+Funktionsgrößen, Konsistenz mit Projekt-Stil, keine Magic Numbers,
+HTML semantisch, CSS-Klassen verständlich.
+</perspective>
+
+<perspective name="kritischer_architekt">
+Geht's einfacher ohne Lesbarkeitsverlust? Browser-API statt Library,
+deklarativ statt imperativ wo sinnvoll, passenderes Datenmodell.
+Kompatibilitätsregel beachten.
+</perspective>
+
+<synthesis>
+Bewertung pro Vorschlag: Impact, Risiko, Kompatibilität (hartes Veto),
+Aufwand vs. Nutzen.
+
+Tie-Breaker: Robustheit gewinnt bei externen Eingaben (User-Uploads,
+Tour-JSONs). Einfachheit gewinnt bei reiner interner Logik.
+Im Zweifel: Status quo.
+
+In der PR-Beschreibung kurz erwähnen, was aufgefallen ist und
+übernommen wurde. Eine Handvoll Stichpunkte reicht.
+</synthesis>
+</self_review_before_pr>
+
+<workflow>
+1. Memory-Dateien lesen (siehe <project_memory>)
+2. Plan vorlegen vor Code-Änderungen. Bei größeren Architektur-Entscheidungen:
+   erst mit User abstimmen, dann coden.
+3. Code schreiben
+4. Tests schreiben oder anpassen (siehe <testing>)
+5. Self-Review durchgehen (siehe <self_review_before_pr>)
+6. Memory-Dateien aktualisieren:
+   - lastsession.md → IMMER
+   - project_brief.md → bei geklärten/neuen offenen Fragen
+   - project_profile.md → bei Architektur-Änderungen
+   - knownbugs.md / plannedfeatures.md / lessons.md → falls relevant
+7. PR erstellen mit kurzer Begründung der Library/Architektur-Entscheidungen
+   und Self-Review-Ergebnis
+
+PR-Konventionen
+- Branch: feature/<kurzbeschreibung> oder fix/<kurzbeschreibung>
+- Commit-Message: kurze deutsche Zusammenfassung, optional Detail im Body
+- Diff klein und fokussiert – keine Drive-by-Refactorings
+- Neue Dependencies in PR-Beschreibung begründen (inkl. Lizenz)
+</workflow>
+
+<boundaries>
+Was NICHT zu tun ist:
+- Keine ungefragten Stil-Reformatierungen über die Codebase
+- Keine neuen Abhängigkeiten ohne Begründung und Lizenz-Check
+- Kein eigenmächtiger Wechsel der 360°-Viewer-Library
+- Keine eigenmächtige Einführung eines Frameworks (Vue, React, Svelte)
+- Keine Code-Generierung für Features, die nur in docs/plannedfeatures.md
+  stehen, aber nicht explizit beauftragt sind
+- Keine Verwendung von Libraries mit GPL-, BSL-, SSPL- oder proprietärer Lizenz
+- Keine externen Tracker, Analytics oder Telemetrie ohne explizite Anweisung
+</boundaries>
+
+<on_uncertainty>
+Wenn der Task mehrdeutig ist, mit dieser Datei kollidiert oder eine
+offene Frage aus docs/project_brief.md berührt: Rückfrage stellen
+statt raten. Eine ehrliche Frage ist besser als ein falsch verstandener PR.
+</on_uncertainty>
+
+</agents_instructions>
