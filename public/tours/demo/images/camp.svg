@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1000" role="img" aria-label="Stylized equirectangular camp panorama">
+  <defs>
+    <linearGradient id="dusk" x1="0" x2="0" y1="0" y2="1">
+      <stop stop-color="#25345f" offset="0"/>
+      <stop stop-color="#c66f57" offset="0.58"/>
+      <stop stop-color="#24311f" offset="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="2000" height="1000" fill="url(#dusk)"/>
+  <path d="M0 590 210 410 390 610 650 340 900 625 1120 430 1350 620 1630 350 2000 610v390H0z" fill="#253047"/>
+  <path d="M0 760c260-90 430-70 650 0s420 90 700 0 430-70 650 0v240H0z" fill="#18251d"/>
+  <path d="M900 735h210l-105-180z" fill="#f1b56b"/>
+  <path d="M938 735h134l-67-114z" fill="#8f4638"/>
+  <circle cx="1010" cy="795" r="28" fill="#ffcf66"/>
+</svg>
